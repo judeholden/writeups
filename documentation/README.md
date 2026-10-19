@@ -12,16 +12,17 @@ Use the platform sections to browse room, machine, and web-security notes. Each 
 
 **TryHackMe profile:** [https://tryhackme.com/p/judeholden](https://tryhackme.com/p/judeholden)
 
-### Browse by platform
+### TryHackMe
 
-{% content-ref url="https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/tryhackme" %}
-[TryHackMe](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/tryhackme)
+{% content-ref url="tryhackme/overpass-write-up.md" %}
+[overpass-write-up.md](tryhackme/overpass-write-up.md)
 {% endcontent-ref %}
 
-{% content-ref url="https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/hack-the-box" %}
-[Hack The Box](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/hack-the-box)
+{% content-ref url="tryhackme/cyborg-write-up.md" %}
+[cyborg-write-up.md](tryhackme/cyborg-write-up.md)
 {% endcontent-ref %}
 
-{% content-ref url="https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/overthewire-natas" %}
-[OverTheWire Natas](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/overthewire-natas)
-{% endcontent-ref %}
+### Coming soon
+
+* **Hack The Box** — machine and challenge write-ups.
+* **OverTheWire Natas** — web-security challenge notes.

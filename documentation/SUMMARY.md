@@ -5,6 +5,7 @@
 ## TryHackMe
 
 * [Overpass Write-up](tryhackme/overpass-write-up.md)
+* [Cyborg Write-up](tryhackme/cyborg-write-up.md)
 
 ## Hack The Box
 
