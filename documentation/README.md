@@ -6,12 +6,22 @@ description: Hands-on CTF write-ups and challenge notes.
 
 ## Cybersecurity Write-ups
 
-Documented CTF investigations, organized by platform.
+Technical CTF write-ups based on completed, authorized lab investigations.
 
-My TryHackMe profile: [https://tryhackme.com/p/judeholden](https://tryhackme.com/p/judeholden)
+Use the platform sections to browse room, machine, and web-security notes. Each write-up records the observed path, commands, evidence, and security lessons.
 
-### Platforms
+**TryHackMe profile:** [https://tryhackme.com/p/judeholden](https://tryhackme.com/p/judeholden)
 
-* [TryHackMe](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/tryhackme "mention") — room write-ups and lab notes.
-* [Hack The Box](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/hack-the-box "mention") — machines, challenges, and methodology.
-* [OverTheWire Natas](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/overthewire-natas "mention") — web-security challenge notes.
+### Browse by platform
+
+{% content-ref url="https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/tryhackme" %}
+[TryHackMe](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/tryhackme)
+{% endcontent-ref %}
+
+{% content-ref url="https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/hack-the-box" %}
+[Hack The Box](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/hack-the-box)
+{% endcontent-ref %}
+
+{% content-ref url="https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/overthewire-natas" %}
+[OverTheWire Natas](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/overthewire-natas)
+{% endcontent-ref %}

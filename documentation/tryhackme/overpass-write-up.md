@@ -2,9 +2,9 @@
 description: A documented solve path for the Overpass room, based on recorded lab evidence.
 ---
 
-# TryHackMe Overpass Write-up
+# Overpass Write-up
 
-## TryHackMe Overpass Write-Up
+## Overpass Write-Up
 
 ### Challenge information
 
@@ -26,22 +26,22 @@ After SSH access, local enumeration exposed a root cron job. That job downloaded
 
 ### Table of contents
 
-* [Tools used](tryhackme-overpass-write-up.md#tools-used)
-* [Initial reconnaissance](tryhackme-overpass-write-up.md#initial-reconnaissance)
-* [Web enumeration and authentication bypass](tryhackme-overpass-write-up.md#web-enumeration-and-authentication-bypass)
-* [RSA private-key recovery](tryhackme-overpass-write-up.md#rsa-private-key-recovery)
-* [SSH access as james](tryhackme-overpass-write-up.md#ssh-access-as-james)
-* [Post-exploitation enumeration](tryhackme-overpass-write-up.md#post-exploitation-enumeration)
-* [ROT47 discovery](tryhackme-overpass-write-up.md#rot47-discovery)
-* [Root cron-job analysis](tryhackme-overpass-write-up.md#root-cron-job-analysis)
-* [Controlled hostname resolution and script replacement](tryhackme-overpass-write-up.md#controlled-hostname-resolution-and-script-replacement)
-* [Reverse shell and root verification](tryhackme-overpass-write-up.md#reverse-shell-and-root-verification)
-* [Flag retrieval](tryhackme-overpass-write-up.md#flag-retrieval)
-* [Attack chain](tryhackme-overpass-write-up.md#attack-chain)
-* [Vulnerability analysis](tryhackme-overpass-write-up.md#vulnerability-analysis)
-* [Defensive recommendations](tryhackme-overpass-write-up.md#defensive-recommendations)
-* [Evidence integrity and limitations](tryhackme-overpass-write-up.md#evidence-integrity-and-limitations)
-* [Final summary](tryhackme-overpass-write-up.md#final-summary)
+* [Tools used](overpass-write-up.md#tools-used)
+* [Initial reconnaissance](overpass-write-up.md#initial-reconnaissance)
+* [Web enumeration and authentication bypass](overpass-write-up.md#web-enumeration-and-authentication-bypass)
+* [RSA private-key recovery](overpass-write-up.md#rsa-private-key-recovery)
+* [SSH access as james](overpass-write-up.md#ssh-access-as-james)
+* [Post-exploitation enumeration](overpass-write-up.md#post-exploitation-enumeration)
+* [ROT47 discovery](overpass-write-up.md#rot47-discovery)
+* [Root cron-job analysis](overpass-write-up.md#root-cron-job-analysis)
+* [Controlled hostname resolution and script replacement](overpass-write-up.md#controlled-hostname-resolution-and-script-replacement)
+* [Reverse shell and root verification](overpass-write-up.md#reverse-shell-and-root-verification)
+* [Flag retrieval](overpass-write-up.md#flag-retrieval)
+* [Attack chain](overpass-write-up.md#attack-chain)
+* [Vulnerability analysis](overpass-write-up.md#vulnerability-analysis)
+* [Defensive recommendations](overpass-write-up.md#defensive-recommendations)
+* [Evidence integrity and limitations](overpass-write-up.md#evidence-integrity-and-limitations)
+* [Final summary](overpass-write-up.md#final-summary)
 
 ### Tools used
 
