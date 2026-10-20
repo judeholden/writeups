@@ -10,7 +10,7 @@ description: An evidence-based walkthrough of the TryHackMe Cyborg room.
 
 * **Platform:** TryHackMe
 * **Room:** Cyborg
-* **Room URL:** [https://tryhackme.com/room/cyborgt8?vccr=3](https://tryhackme.com/room/cyborgt8?vccr=3)
+* **Room URL:** [https://tryhackme.com/room/cyborgt8](https://tryhackme.com/room/cyborgt8)
 * **Target:** `10.114.157.235`
 * **Scope:** Authorized TryHackMe lab environment
 
@@ -20,7 +20,7 @@ This write-up documents the recorded route to root access on Cyborg. The investi
 
 Privilege escalation came from a passwordless sudo rule. The allowed backup script executed data supplied through its `-c` option. Running `/bin/bash` through that option produced a root shell.
 
-The Borg backup-restoration stage was not fully recorded. It is identified as a verification gap rather than reconstructed as observed evidence.
+The Borg recovery steps were reconstructed from public Cyborg solution references. They are identified separately from the recorded terminal evidence.
 
 ### Table of contents
 
@@ -153,20 +153,50 @@ The notes identify Borg as the backup-restoration mechanism:
 restore backup use borg
 ```
 
-BorgBackup stores deduplicated archives and can encrypt repository contents. A password may be required to inspect encrypted archives or extract their files. In a typical recovery flow, `borg list` identifies archives and `borg extract` restores a selected archive.
+BorgBackup stores deduplicated archives and can encrypt repository contents. A password may be required to inspect encrypted archives or extract their files.
 
-#### Verification required
+#### Reconstructed recovery path
 
-The following details were not recorded and are deliberately omitted:
+The following path completes the missing terminal notes. It is reconstructed from public Cyborg solution references, not from the recorded session output.
 
-* The Borg repository location.
-* The archive name.
-* The exact `borg` commands used.
-* Borg command output.
-* The restored directory tree.
-* The file that supplied the `alex` credential.
+The archive retrieved from the web service was extracted:
 
-This stage should be completed from the original terminal history before treating it as first-hand evidence. No externally sourced command, path, or output is presented here as a recorded action.
+```bash
+tar -xf archive.tar
+cd home/field/dev/final_archive
+```
+
+The `final_archive` directory is the Borg repository. Listing it identifies the available archive:
+
+```bash
+borg list .
+```
+
+At the Borg passphrase prompt, enter the recovered value:
+
+```
+squidward
+```
+
+The archive is named `music_archive`. It can be restored into the current directory:
+
+```bash
+borg extract ./::music_archive
+```
+
+Here, `.` identifies the local Borg repository and `::music_archive` selects the archive to extract. Borg recreates the archived directory structure beneath the current working directory.
+
+The restored files include Alex's note:
+
+```bash
+cat home/alex/Documents/note.txt
+```
+
+That note supplies the credential pair used for the next stage:
+
+```
+alex:S3cretP@s3
+```
 
 ### Access as alex
 
@@ -182,7 +212,7 @@ A shell prompt confirmed access as `alex`:
 alex@ubuntu:~$
 ```
 
-This supports successful access as the `alex` user. The exact SSH command, authentication method, credential source, and relationship to the Borg restoration stage were not captured in the notes.
+This supports successful access as the `alex` user. The restored Borg note connects the recovered backup contents to this credential pair. The exact SSH command and authentication method were not captured in the notes.
 
 ### Sudo enumeration
 
@@ -346,7 +376,7 @@ flowchart TD
     B --> C[/admin/ and /etc/ discovered]
     C --> D[Apache MD5-style hash recovered]
     D --> E[John recovers squidward]
-    E --> F[Borg restoration stage requires verification]
+    E --> F[Restore Borg music_archive]
     F --> G[Access as alex]
     G --> H[sudo -l exposes backup.sh]
     H --> I[-c input reaches command substitution]
@@ -383,8 +413,8 @@ The Borg stage may contain additional security findings, but the available notes
 
 * Commands and outputs in this write-up are preserved from the recorded lab session.
 * The source of the Apache MD5-style hash is not recorded.
-* The Borg repository, archive, commands, output, and extracted files are not recorded.
-* The source of `alex:S3cretP@s3` is not recorded.
+* The Borg commands, repository path, archive name, and restored note are reconstructed from public Cyborg solution references.
+* No Borg command output was supplied.
 * The exact SSH command and authentication method are not recorded.
 * The root flag and root `id` output are direct session evidence.
 * The user-flag value is not recorded.
@@ -393,6 +423,6 @@ The Borg stage may contain additional security findings, but the available notes
 
 ### Final summary
 
-Cyborg began with SSH and HTTP discovery, followed by web directory enumeration and recovery of an Apache MD5-style password. John the Ripper recovered `squidward`, while the incomplete notes identify Borg backup restoration as the next stage.
+Cyborg began with SSH and HTTP discovery, followed by web directory enumeration and recovery of an Apache MD5-style password. John the Ripper recovered `squidward`. The reconstructed Borg recovery path restored `music_archive` and revealed Alex's credential note.
 
 Access as `alex` exposed a passwordless sudo rule for a backup script. The script accepted `-c` input and executed it through command substitution. Supplying `/bin/bash` produced a root shell, confirmed by `id`.
