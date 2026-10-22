@@ -1,6 +1,5 @@
 ---
 description: A documented solve path for the Overpass room, based on recorded lab evidence.
-hidden: true
 ---
 
 # Overpass Write-up

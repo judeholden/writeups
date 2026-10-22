@@ -6,14 +6,32 @@ description: Hands-on CTF write-ups and challenge notes.
 
 ## Cybersecurity Write-ups
 
-Technical CTF write-ups based on completed, authorized lab investigations.
+Technical CTF write-ups based on completed, authorized lab investigations. This collection documents practical enumeration, exploitation, privilege escalation, and defensive lessons.
 
-Choose a platform to browse its room, machine, and web-security notes. Each write-up records the observed path, commands, evidence, and security lessons.
+Each entry preserves the observed solve path. It separates evidence from conclusions and explains why each step mattered.
 
-**TryHackMe profile:** [https://tryhackme.com/p/judeholden](https://tryhackme.com/p/judeholden)
+**TryHackMe profile:** [Jude Holden](https://tryhackme.com/p/judeholden)
 
-### Platforms
+### Explore the collection
 
-* [TryHackMe](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/tryhackme "mention") — room write-ups.
-* [Hack The Box](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/hack-the-box "mention") — machine and challenge write-ups.
-* [OverTheWire Natas](https://app.gitbook.com/s/5v09ew8wIYAOM1PzbOXs/overthewire-natas "mention") — web-security challenge notes.
+#### TryHackMe
+
+Room write-ups from completed, authorized labs. Use the navigation to browse Overpass, Cyborg, Dreaming, Bugged, and future rooms.
+
+#### Hack The Box
+
+Machine and challenge write-ups will appear here as they are completed.
+
+#### OverTheWire Natas
+
+Web-security challenge notes and solutions will appear here as they are completed.
+
+### What each write-up includes
+
+* The observed reconnaissance and enumeration path.
+* Commands, selected output, and the reasoning behind each decision.
+* Root-cause analysis and practical defensive recommendations.
+
+### Scope
+
+All offensive techniques documented here were used only in authorized CTF and training environments. Target addresses, credentials, and flags are lab-session evidence, not reusable production values.

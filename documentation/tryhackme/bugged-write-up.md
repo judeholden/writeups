@@ -1,6 +1,5 @@
 ---
 description: An evidence-based walkthrough of the TryHackMe Bugged MQTT challenge.
-hidden: true
 ---
 
 # Bugged Write-up

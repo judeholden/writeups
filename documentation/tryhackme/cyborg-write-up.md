@@ -1,6 +1,5 @@
 ---
 description: An evidence-based walkthrough of the TryHackMe Cyborg room.
-hidden: true
 ---
 
 # Cyborg Write-up
