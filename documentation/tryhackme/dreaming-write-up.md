@@ -1,5 +1,6 @@
 ---
 description: An evidence-based walkthrough of the TryHackMe Dreaming room.
+hidden: true
 ---
 
 # Dreaming Write-up

