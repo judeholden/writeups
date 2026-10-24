@@ -9,6 +9,7 @@
 * [Dreaming Write-up](tryhackme/dreaming-write-up.md)
 * [Bugged Write-up](tryhackme/bugged-write-up.md)
 * [Tomghost Write-up](tryhackme/tomghost-write-up.md)
+* [BSidesGT Anonforce Write-up](tryhackme/bsidesgt-anonforce-write-up.md)
 
 ## Hack The Box
 
