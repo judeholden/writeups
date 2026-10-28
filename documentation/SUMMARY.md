@@ -11,6 +11,8 @@
 * [Tomghost Write-up](tryhackme/tomghost-write-up.md)
 * [BSidesGT Anonforce Write-up](tryhackme/bsidesgt-anonforce-write-up.md)
 * [Brooklyn Nine Nine Write-up](tryhackme/brooklyn-nine-nine-write-up.md)
+* [Smag Grotto Write-up](tryhackme/smag-grotto-write-up.md)
+* [Chocolate Factory Write-up](tryhackme/chocolate-factory-write-up.md)
 
 ## Hack The Box
 
