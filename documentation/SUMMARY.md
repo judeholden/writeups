@@ -13,6 +13,7 @@
 * [Brooklyn Nine Nine Write-up](tryhackme/brooklyn-nine-nine-write-up.md)
 * [Smag Grotto Write-up](tryhackme/smag-grotto-write-up.md)
 * [Chocolate Factory Write-up](tryhackme/chocolate-factory-write-up.md)
+* [Source Write-up](tryhackme/source-write-up.md)
 
 ## Hack The Box
 
