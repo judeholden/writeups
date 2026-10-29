@@ -17,6 +17,7 @@
 * [BSidesGT Library Write-up](tryhackme/bsidesgt-library-write-up.md)
 * [Wgel CTF Write-up](tryhackme/wgel-ctf-write-up.md)
 * [Cowboy Hacker Write-up](tryhackme/cowboy-hacker-write-up.md)
+* [Mustacchio Write-Up](tryhackme/mustacchio-write-up.md)
 
 ## Hack The Box
 
