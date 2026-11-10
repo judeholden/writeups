@@ -18,6 +18,7 @@
 * [Wgel CTF Write-up](tryhackme/wgel-ctf-write-up.md)
 * [Cowboy Hacker Write-up](tryhackme/cowboy-hacker-write-up.md)
 * [Mustacchio Write-Up](tryhackme/mustacchio-write-up.md)
+* [VulnNet: Internal Write-Up](tryhackme/vulnnet-internal-write-up.md)
 
 ## Hack The Box
 
